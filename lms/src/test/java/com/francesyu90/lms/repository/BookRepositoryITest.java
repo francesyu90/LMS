@@ -23,7 +23,7 @@ import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationExceptio
  */
 public class BookRepositoryITest {
 	
-	private BookRepository bookRepo;
+	private IBookRepository bookRepo;
 	
 	public BookRepositoryITest() {
 		PicoConfig pico = new PicoConfig();
