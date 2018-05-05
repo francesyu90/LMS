@@ -1,6 +1,5 @@
 package com.francesyu90.lms.configuration;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import java.sql.Connection;
@@ -8,7 +7,6 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
-import org.apache.commons.pool.impl.GenericObjectPool;
 import org.junit.Test;
 
 /**

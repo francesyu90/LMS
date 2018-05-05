@@ -7,6 +7,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import com.francesyu90.lms.configuration.DBConfig;
 import com.francesyu90.lms.domain.Book;
 import com.francesyu90.lms.repository.IBookRepository;
@@ -18,6 +20,11 @@ public class BookRepository implements IBookRepository {
 	public BookRepository() throws SQLException {
 		this.conn = DBConfig.getDBConn();
 	}
+	
+	public BookRepository(DataSource dataSource) throws SQLException {
+		this.conn = dataSource.getConnection();
+	}
+	
 	
 	public List<Book> getAllBooks() throws SQLException {
 		

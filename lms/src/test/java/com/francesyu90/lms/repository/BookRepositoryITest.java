@@ -6,8 +6,11 @@ import static org.junit.Assert.assertTrue;
 import java.sql.SQLException;
 import java.util.List;
 
+import javax.sql.DataSource;
+
 import org.junit.Test;
 
+import com.francesyu90.lms.configuration.DBConfig;
 import com.francesyu90.lms.configuration.PicoConfig;
 import com.francesyu90.lms.domain.Book;
 import com.francesyu90.lms.repository.impl.BookRepository;
@@ -35,6 +38,15 @@ public class BookRepositoryITest {
 	
 	@Test
 	public void testGetAllBooks() throws SQLException {
+		List<Book> books = this.bookRepo.getAllBooks();
+		assertNotNull(books);
+		assertTrue(books.isEmpty());
+	}
+	
+	@Test
+	public void testBookRepoWithConnPool() throws SQLException {
+		DataSource dataSource = DBConfig.setUpPool();
+		this.bookRepo = new BookRepository(dataSource);
 		List<Book> books = this.bookRepo.getAllBooks();
 		assertNotNull(books);
 		assertTrue(books.isEmpty());
