@@ -8,12 +8,12 @@ import org.junit.Test;
 import com.francesyu90.lms.domain.Book;
 import com.francesyu90.lms.domain.Library;
 
-public class AppConfigTest {
+public class PicoConfigTest {
 	
 	@Test
 	public void testPicoAddAndGetCompoent() {
 		
-		AppConfig config = new AppConfig();
+		PicoConfig config = new PicoConfig();
 		config.addPicoComponent(String.class);
 		config.addPicoComponent(Book.class);
 		Object obj = config.getPicoComponent(Book.class);
@@ -24,7 +24,7 @@ public class AppConfigTest {
 	@Test
 	public void testPicoAddAndGetCompoentI() {
 		
-		AppConfig config = new AppConfig();
+		PicoConfig config = new PicoConfig();
 		config.addPicoComponent(String.class);
 		config.addPicoComponent(Book.class);
 		config.addPicoComponent(Library.class);

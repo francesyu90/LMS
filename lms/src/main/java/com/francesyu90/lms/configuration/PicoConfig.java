@@ -3,11 +3,11 @@ package com.francesyu90.lms.configuration;
 import org.picocontainer.DefaultPicoContainer;
 import org.picocontainer.MutablePicoContainer;
 
-public class AppConfig {
+public class PicoConfig {
 	
 	private MutablePicoContainer  pico;
 	
-	public AppConfig() {
+	public PicoConfig() {
 		this.initializePico();
 	}
 	
