@@ -1,3 +1,6 @@
+DROP TABLE IF EXISTS book;
+DROP TABLE IF EXISTS library;
+
 CREATE TABLE library (
     id	INT	NOT NULL,  
     name  VARCHAR(255) NOT NULL,

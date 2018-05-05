@@ -9,8 +9,6 @@ import org.junit.Test;
 
 /**
  * 
- * @author Beijia
- * 
  * Note: only run these tests after connecting to real database server
  * 
  */
