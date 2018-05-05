@@ -1,6 +1,7 @@
 package com.francesyu90.lms.repository;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -38,6 +39,7 @@ public class LibraryRepositoryITest {
 	
 	@Test
 	public void testSaveLibrary() throws SQLException {
+		this.libRepo.removeAllLibraies();
 		Library library = new Library("library");
 		int res = this.libRepo.saveLibrary(library);
 		assertEquals(res, 1);
@@ -64,6 +66,27 @@ public class LibraryRepositoryITest {
 		this.libRepo.saveLibrary(library);
 		int res = this.libRepo.removeLibraryByName(library);
 		assertEquals(res, 1);
+	}
+	
+	@Test
+	public void testSaveLibraryAndGetId() throws SQLException {
+		String name = "library1";
+		Library library = new Library(name);
+		int id = this.libRepo.saveLibraryAndGetId(library);
+		assertNotEquals(id, -1);
+		this.libRepo.removeAllLibraies();
+	}
+	
+	@Test
+	public void testFindById() throws SQLException {
+		String name = "library1";
+		Library library = new Library(name);
+		int id = this.libRepo.saveLibraryAndGetId(library);
+		Library found = this.libRepo.findById(id);
+		assertNotNull(found);
+		assertEquals(found.getId(), id);
+		assertEquals(found.getName(), library.getName());
+		this.libRepo.removeAllLibraies();
 	}
 	
 	

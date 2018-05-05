@@ -9,6 +9,8 @@ public interface ILibraryRepository {
 	
 	public int saveLibrary(Library library) throws SQLException;
 	
+	public int saveLibraryAndGetId(Library library) throws SQLException;
+	
 	public List<Library> getAllLibraries() throws SQLException;
 	
 	public Library findByName(String name) throws SQLException;
@@ -16,5 +18,7 @@ public interface ILibraryRepository {
 	public int removeLibraryByName(Library library) throws SQLException;
 
 	public int removeAllLibraies() throws SQLException;
+	
+	public Library findById(int id) throws SQLException;
 	
 }

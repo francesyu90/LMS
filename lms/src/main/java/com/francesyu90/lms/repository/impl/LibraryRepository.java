@@ -86,6 +86,37 @@ public class LibraryRepository implements ILibraryRepository {
 		
 		return preparedStatement.executeUpdate();
 	}
+
+	public int saveLibraryAndGetId(Library library) throws SQLException {
+		
+		String sql = "INSERT INTO library (name) VALUES(?)";
+		PreparedStatement preparedStatement = this.conn.prepareStatement(sql);
+		preparedStatement.setString(1, library.getName());
+		
+		preparedStatement.executeUpdate();
+		
+		Library found = this.findByName(library.getName());
+		
+		return found.getId();
+	}
+
+	public Library findById(int id) throws SQLException {
+		String sql = "SELECT * FROM library l WHERE l.id = ?";
+		PreparedStatement preparedStatement = this.conn.prepareStatement(sql);
+		preparedStatement.setInt(1, id);
+		ResultSet rs = preparedStatement.executeQuery();
+		
+		List<Library> libraries = new ArrayList<Library>();
+		while(rs.next()) {
+			int id1 = rs.getInt("id");
+			String nm = rs.getString("name");
+			Library library = new Library(nm);
+			library.setId(id1);
+			libraries.add(library);
+		}
+		
+		return libraries.get(0);
+	}
 	
 	
 
