@@ -17,11 +17,11 @@ import com.francesyu90.lms.repository.impl.BookRepository;
  * Note: only run these tests after connecting to real database server
  * 
  */
-public class BookRepositoryTest {
+public class BookRepositoryITest {
 	
 	private BookRepository bookRepo;
 	
-	public BookRepositoryTest() {
+	public BookRepositoryITest() {
 		PicoConfig pico = new PicoConfig();
 		pico.addPicoComponent(Book.class);
 		pico.addPicoComponent(BookRepository.class);
