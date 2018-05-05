@@ -1,6 +1,10 @@
 package com.francesyu90.lms.domain;
 
+import java.util.concurrent.atomic.AtomicInteger;
+
 public class Book {
+	
+	private static AtomicInteger ID_GENERATOR = new AtomicInteger(1000);
 	
 	private int id;
 	
@@ -9,13 +13,7 @@ public class Book {
 	private String author;
 
 	public Book(String title, String author) {
-		super();
-		this.title = title;
-		this.author = author;
-	}
-
-	public Book(int id, String title, String author) {
-		this.id = id;
+		this.id = ID_GENERATOR.getAndIncrement();
 		this.title = title;
 		this.author = author;
 	}

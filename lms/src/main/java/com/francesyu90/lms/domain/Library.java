@@ -1,8 +1,12 @@
 package com.francesyu90.lms.domain;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicInteger;
 
 public class Library {
+	
+	private static AtomicInteger ID_GENERATOR = new AtomicInteger(1000);
 	
 	private int id;
 	
@@ -11,18 +15,13 @@ public class Library {
 	private List<Book> books;
 	
 	public Library(String name) {
-		super();
+		this.id = ID_GENERATOR.getAndIncrement();
 		this.name = name;
+		this.books = new ArrayList<Book>();
 	}
 
 	public Library(String name, List<Book> books) {
-		super();
-		this.name = name;
-		this.books = books;
-	}
-
-	public Library(int id, String name, List<Book> books) {
-		this.id = id;
+		this.id = ID_GENERATOR.getAndIncrement();
 		this.name = name;
 		this.books = books;
 	}
