@@ -25,7 +25,6 @@ public class BookRepository implements IBookRepository {
 		this.conn = dataSource.getConnection();
 	}
 	
-	
 	public List<Book> getAllBooks() throws SQLException {
 		
 		String sql = "SELECT * FROM book";
@@ -45,5 +44,20 @@ public class BookRepository implements IBookRepository {
 		return books;
 		
 	}
+
+	public boolean saveBook(Book book) throws SQLException {
+		
+		String sql = "INSERT INTO book VALUES(?, ?, ?, ?)";
+		PreparedStatement preparedStatement = this.conn.prepareStatement(sql);
+		preparedStatement.setInt(1, book.getId());
+		preparedStatement.setString(2, book.getTitle());
+		preparedStatement.setString(3, book.getAuthor());
+		preparedStatement.setInt(4, book.getLibraryId());
+		
+		return preparedStatement.execute();
+
+	}
+	
+	
 
 }

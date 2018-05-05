@@ -8,5 +8,7 @@ import com.francesyu90.lms.domain.Book;
 public interface IBookRepository {
 	
 	public List<Book> getAllBooks() throws SQLException;
+	
+	public boolean saveBook(Book book) throws SQLException;
 
 }

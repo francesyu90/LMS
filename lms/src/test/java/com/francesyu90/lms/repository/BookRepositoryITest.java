@@ -14,6 +14,7 @@ import com.francesyu90.lms.configuration.DBConfig;
 import com.francesyu90.lms.configuration.PicoConfig;
 import com.francesyu90.lms.domain.Book;
 import com.francesyu90.lms.repository.impl.BookRepository;
+import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationException;
 
 /**
  * 
@@ -50,6 +51,13 @@ public class BookRepositoryITest {
 		List<Book> books = this.bookRepo.getAllBooks();
 		assertNotNull(books);
 		assertTrue(books.isEmpty());
+	}
+	
+	@Test(expected = MySQLIntegrityConstraintViolationException.class)
+	public void testSaveBook() throws SQLException {
+		Book book = new Book("Hello", "World");
+		boolean res = this.bookRepo.saveBook(book);
+		assertTrue(res);
 	}
 
 }
