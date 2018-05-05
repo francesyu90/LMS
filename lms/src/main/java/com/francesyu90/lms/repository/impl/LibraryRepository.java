@@ -10,7 +10,6 @@ import java.util.List;
 import javax.sql.DataSource;
 
 import com.francesyu90.lms.configuration.DBConfig;
-import com.francesyu90.lms.domain.Book;
 import com.francesyu90.lms.domain.Library;
 import com.francesyu90.lms.repository.ILibraryRepository;
 
@@ -50,6 +49,42 @@ public class LibraryRepository implements ILibraryRepository {
 		}
 		
 		return libraries;
+	}
+
+	public Library findByName(String name) throws SQLException {
+		
+		String sql = "SELECT * FROM library l WHERE l.name = ?";
+		PreparedStatement preparedStatement = this.conn.prepareStatement(sql);
+		preparedStatement.setString(1, name);
+		ResultSet rs = preparedStatement.executeQuery();
+		
+		List<Library> libraries = new ArrayList<Library>();
+		while(rs.next()) {
+			int id = rs.getInt("id");
+			String nm = rs.getString("name");
+			Library library = new Library(nm);
+			library.setId(id);
+			libraries.add(library);
+		}
+		
+		return libraries.get(0);
+	}
+
+	public int removeLibraryByName(Library library) throws SQLException {
+		
+		String sql = "DELETE FROM library WHERE library.name = ?";
+		PreparedStatement preparedStatement = this.conn.prepareStatement(sql);
+		preparedStatement.setString(1, library.getName());
+		
+		return preparedStatement.executeUpdate();
+	}
+	
+	public int removeAllLibraies() throws SQLException {
+		
+		String sql = "DELETE FROM library";
+		PreparedStatement preparedStatement = this.conn.prepareStatement(sql);
+		
+		return preparedStatement.executeUpdate();
 	}
 	
 	

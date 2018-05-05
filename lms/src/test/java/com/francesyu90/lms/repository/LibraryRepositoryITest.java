@@ -15,6 +15,11 @@ import com.francesyu90.lms.configuration.DBConfig;
 import com.francesyu90.lms.domain.Library;
 import com.francesyu90.lms.repository.impl.LibraryRepository;
 
+/**
+ * 
+ * Note: only run these tests after connecting to real database server
+ * 
+ */
 public class LibraryRepositoryITest {
 	
 	private ILibraryRepository libRepo;
@@ -39,6 +44,26 @@ public class LibraryRepositoryITest {
 		List<Library> libraries = this.libRepo.getAllLibraries();
 		assertNotNull(libraries);
 		assertEquals(libraries.size(), 1);
+		this.libRepo.removeAllLibraies();
+	}
+	
+	@Test
+	public void testFindLibraryByName() throws SQLException {
+		String name = "library1";
+		Library library = new Library(name);
+		this.libRepo.saveLibrary(library);
+		Library found = this.libRepo.findByName(name);
+		assertNotNull(found);
+		this.libRepo.removeAllLibraies();
+	}
+	
+	@Test
+	public void testRemoveLibrary() throws SQLException {
+		String name = "library1";
+		Library library = new Library(name);
+		this.libRepo.saveLibrary(library);
+		int res = this.libRepo.removeLibraryByName(library);
+		assertEquals(res, 1);
 	}
 	
 	
