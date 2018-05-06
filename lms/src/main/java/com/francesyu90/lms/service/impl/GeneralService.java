@@ -1,7 +1,9 @@
 package com.francesyu90.lms.service.impl;
 
 import java.sql.SQLException;
+import java.util.List;
 import java.util.Scanner;
+import java.util.stream.Collectors;
 
 import com.francesyu90.lms.domain.Book;
 import com.francesyu90.lms.domain.Library;
@@ -46,7 +48,31 @@ public class GeneralService implements IGeneralService {
 		return true;
 	}
 	
-	public void logln(String message) {
+	public boolean listLibraries() throws SQLException {
+		
+		List<Library> libraries = this.getLibrariesWithBooks();
+		
+		return false;
+	}
+	
+	private List<Library> getLibrariesWithBooks() throws SQLException {
+	
+		List<Library> libraries = this.libRepo.getAllLibraries();
+		return libraries.stream().map(library -> {
+			List<Book> books = null;
+			try {
+				books = this.bookRepo.findBooksByLibraryId(library.getId());
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			library.setBooks(books);
+			return library;
+		}).collect(Collectors.toList());
+		
+	}
+	
+	private void logln(String message) {
 		System.out.println(message);
 	}
 	
