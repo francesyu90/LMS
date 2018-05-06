@@ -16,6 +16,8 @@ public interface ILibraryRepository {
 	public Library findByName(String name) throws SQLException;
 	
 	public int removeLibraryByName(Library library) throws SQLException;
+	
+	public int removeLibraryById(int id) throws SQLException;
 
 	public int removeAllLibraies() throws SQLException;
 	

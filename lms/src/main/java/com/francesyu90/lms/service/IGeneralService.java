@@ -6,4 +6,8 @@ public interface IGeneralService {
 	
 	public boolean addLibrary() throws SQLException;
 
+	public boolean listLibraries() throws SQLException;
+	
+	public boolean removeLibraryById() throws SQLException;
+
 }

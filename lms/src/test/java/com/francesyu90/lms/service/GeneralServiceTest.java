@@ -6,6 +6,7 @@ import java.sql.SQLException;
 
 import javax.sql.DataSource;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.francesyu90.lms.configuration.DBConfig;
@@ -18,6 +19,7 @@ import com.francesyu90.lms.service.impl.GeneralService;
  * 
  * Note: 
  * 	only run these tests after connecting to real database server
+ * 	only run when using test database
  * 
  */
 public class GeneralServiceTest {
@@ -36,6 +38,15 @@ public class GeneralServiceTest {
 	@Test
 	public void testGeneralServiceVar() {
 		assertNotNull(this.generalService);
+	}
+	
+	@Test
+	@Ignore
+	public void testListLibraries() throws SQLException {
+		this.generalService.addLibrary();
+		this.generalService.listLibraries();
+		this.generalService.removeLibraryById();
+		this.generalService.listLibraries();
 	}
 
 

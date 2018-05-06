@@ -9,7 +9,6 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
-import com.francesyu90.lms.configuration.DBConfig;
 import com.francesyu90.lms.domain.Library;
 import com.francesyu90.lms.repository.ILibraryRepository;
 
@@ -146,6 +145,21 @@ public class LibraryRepository implements ILibraryRepository {
 		conn.close();
 		
 		return (libraries.isEmpty())? null : libraries.get(0);
+	}
+
+	@Override
+	public int removeLibraryById(int id) throws SQLException {
+		
+		Connection conn = this.dataSource.getConnection();
+		
+		String sql = "DELETE FROM library WHERE library.id = ?";
+		PreparedStatement preparedStatement = conn.prepareStatement(sql);
+		preparedStatement.setInt(1, id);
+		preparedStatement.executeUpdate();
+		
+		conn.close();
+		
+		return 1;
 	}
 	
 	

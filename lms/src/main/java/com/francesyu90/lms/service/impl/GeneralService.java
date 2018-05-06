@@ -10,6 +10,8 @@ import com.francesyu90.lms.domain.Library;
 import com.francesyu90.lms.repository.IBookRepository;
 import com.francesyu90.lms.repository.ILibraryRepository;
 import com.francesyu90.lms.service.IGeneralService;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class GeneralService implements IGeneralService {
 	
@@ -24,6 +26,7 @@ public class GeneralService implements IGeneralService {
 		this.scanner = new Scanner(System.in);
 	}
 
+	@Override
 	public boolean addLibrary() throws SQLException {
 		
 		this.logln("Please enter a name for the new library: ");
@@ -48,11 +51,27 @@ public class GeneralService implements IGeneralService {
 		return true;
 	}
 	
+	@Override
 	public boolean listLibraries() throws SQLException {
 		
 		List<Library> libraries = this.getLibrariesWithBooks();
 		
-		return false;
+		Gson gson = new GsonBuilder().create();
+		String jsonString = gson.toJson(libraries);
+		System.out.println(jsonString); 
+		
+		return true;
+	}
+	
+	@Override
+	public boolean removeLibraryById() throws SQLException {
+		
+		this.logln("Please enter the id of the library to be deleted: ");
+		int libraryId = this.scanner.nextInt();
+		this.bookRepo.removeBooksByLibraryId(libraryId);
+		this.libRepo.removeLibraryById(libraryId);
+
+		return true;
 	}
 	
 	private List<Library> getLibrariesWithBooks() throws SQLException {
