@@ -12,7 +12,6 @@ import javax.sql.DataSource;
 import org.junit.Test;
 
 import com.francesyu90.lms.configuration.DBConfig;
-import com.francesyu90.lms.configuration.PicoConfig;
 import com.francesyu90.lms.domain.Book;
 import com.francesyu90.lms.domain.Library;
 import com.francesyu90.lms.repository.impl.BookRepository;
@@ -29,21 +28,12 @@ import com.mysql.jdbc.exceptions.jdbc4.MySQLIntegrityConstraintViolationExceptio
 public class BookRepositoryITest {
 	
 	private IBookRepository bookRepo;
+	private ILibraryRepository libRepo;
 	
-	public BookRepositoryITest() {
-		PicoConfig pico = new PicoConfig();
-		pico.addPicoComponent(Book.class);
-		pico.addPicoComponent(BookRepository.class);
-		this.bookRepo = 
-				(BookRepository) pico.getPicoComponent(BookRepository.class);
-	}
-	
-	private ILibraryRepository getLibRepo() {
-		PicoConfig pico = new PicoConfig();
-		pico.addPicoComponent(Library.class);
-		pico.addPicoComponent(LibraryRepository.class);
-		return (ILibraryRepository) pico.getPicoComponent(
-				LibraryRepository.class);
+	public BookRepositoryITest() throws SQLException {
+		DataSource dataSource = DBConfig.setUpPool();
+		this.bookRepo = new BookRepository(dataSource);
+		this.libRepo = new LibraryRepository(dataSource);
 	}
 	
 	@Test
@@ -70,8 +60,7 @@ public class BookRepositoryITest {
 	@Test
 	public void testSaveBook() throws SQLException {
 		Library library = new Library("library");
-		ILibraryRepository libRepo = this.getLibRepo();
-		int libraryId = libRepo.saveLibraryAndGetId(library);
+		int libraryId = this.libRepo.saveLibraryAndGetId(library);
 		Book book = new Book("Hello", "World");
 		book.setLibraryId(libraryId);
 		int res = this.bookRepo.saveBook(book);
@@ -89,8 +78,7 @@ public class BookRepositoryITest {
 	@Test
 	public void testFindBooksByLibraryId() throws SQLException {
 		Library library = new Library("library");
-		ILibraryRepository libRepo = this.getLibRepo();
-		int libraryId = libRepo.saveLibraryAndGetId(library);
+		int libraryId = this.libRepo.saveLibraryAndGetId(library);
 		Book book = new Book("Hello", "World");
 		Book book1 = new Book("Hello1", "World1");
 		book.setLibraryId(libraryId);
@@ -107,8 +95,7 @@ public class BookRepositoryITest {
 	@Test
 	public void testRemoveBooksByLibraryId() throws SQLException {
 		Library library = new Library("library");
-		ILibraryRepository libRepo = this.getLibRepo();
-		int libraryId = libRepo.saveLibraryAndGetId(library);
+		int libraryId = this.libRepo.saveLibraryAndGetId(library);
 		Book book = new Book("Hello", "World");
 		Book book1 = new Book("Hello1", "World1");
 		book.setLibraryId(libraryId);
@@ -116,7 +103,7 @@ public class BookRepositoryITest {
 		this.bookRepo.saveBook(book);
 		this.bookRepo.saveBook(book1);
 		int res = this.bookRepo.removeBooksByLibraryId(libraryId);
-		assertEquals(res, 2);
+		assertEquals(res, 1);
 		libRepo.removeAllLibraies();
 	}
 	
@@ -124,8 +111,7 @@ public class BookRepositoryITest {
 	public void testRemoveBooksByLibraryName() throws SQLException {
 		String libraryName = "library";
 		Library library = new Library(libraryName);
-		ILibraryRepository libRepo = this.getLibRepo();
-		int libraryId = libRepo.saveLibraryAndGetId(library);
+		int libraryId = this.libRepo.saveLibraryAndGetId(library);
 		Book book = new Book("Hello", "World");
 		Book book1 = new Book("Hello1", "World1");
 		book.setLibraryId(libraryId);
@@ -133,10 +119,8 @@ public class BookRepositoryITest {
 		this.bookRepo.saveBook(book);
 		this.bookRepo.saveBook(book1);
 		int res = this.bookRepo.removeBooksByLibraryName(libraryName);
-		assertEquals(res, 2);
+		assertEquals(res, 1);
 		libRepo.removeAllLibraies();
 	}
 	
-	
-
 }

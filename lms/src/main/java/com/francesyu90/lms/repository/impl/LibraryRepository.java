@@ -15,28 +15,50 @@ import com.francesyu90.lms.repository.ILibraryRepository;
 
 public class LibraryRepository implements ILibraryRepository {
 	
-	private Connection conn;
-	
-	public LibraryRepository() throws SQLException {
-		this.conn = DBConfig.getDBConn();
-	}
+	private DataSource dataSource;
 	
 	public LibraryRepository(DataSource dataSource) throws SQLException {
-		this.conn = dataSource.getConnection();
+		this.dataSource = dataSource;
 	}
 	
 	public int saveLibrary(Library library) throws SQLException {
 		
+		Connection conn = this.dataSource.getConnection();
+		
 		String sql = "INSERT INTO library (name) VALUES(?)";
-		PreparedStatement preparedStatement = this.conn.prepareStatement(sql);
+		PreparedStatement preparedStatement = conn.prepareStatement(sql);
 		preparedStatement.setString(1, library.getName());
 		
-		return preparedStatement.executeUpdate();
+		preparedStatement.executeUpdate();
+		
+		conn.close();
+		
+		return 1;
+	}
+	
+	public int saveLibraryAndGetId(Library library) throws SQLException {
+		
+		Connection conn = this.dataSource.getConnection();
+	
+		String sql = "INSERT INTO library (name) VALUES(?)";
+		PreparedStatement preparedStatement = conn.prepareStatement(sql);
+		preparedStatement.setString(1, library.getName());
+		
+		preparedStatement.executeUpdate();
+		
+		conn.close();
+		
+		Library found = this.findByName(library.getName());
+		return found.getId();
 	}
 
+
 	public List<Library> getAllLibraries() throws SQLException {
+		
+		Connection conn = this.dataSource.getConnection();
+		
 		String sql = "SELECT * FROM library";
-		PreparedStatement preparedStatement = this.conn.prepareStatement(sql);
+		PreparedStatement preparedStatement = conn.prepareStatement(sql);
 		ResultSet rs = preparedStatement.executeQuery();
 		
 		List<Library> libraries = new ArrayList<Library>();
@@ -48,13 +70,17 @@ public class LibraryRepository implements ILibraryRepository {
 			libraries.add(library);
 		}
 		
+		conn.close();
+		
 		return libraries;
 	}
 
 	public Library findByName(String name) throws SQLException {
 		
+		Connection conn = this.dataSource.getConnection();
+		
 		String sql = "SELECT * FROM library l WHERE l.name = ?";
-		PreparedStatement preparedStatement = this.conn.prepareStatement(sql);
+		PreparedStatement preparedStatement = conn.prepareStatement(sql);
 		preparedStatement.setString(1, name);
 		ResultSet rs = preparedStatement.executeQuery();
 		
@@ -67,42 +93,44 @@ public class LibraryRepository implements ILibraryRepository {
 			libraries.add(library);
 		}
 		
+		conn.close();
+		
 		return libraries.get(0);
 	}
 
 	public int removeLibraryByName(Library library) throws SQLException {
 		
-		String sql = "DELETE FROM library WHERE library.name = ?";
-		PreparedStatement preparedStatement = this.conn.prepareStatement(sql);
-		preparedStatement.setString(1, library.getName());
+		Connection conn = this.dataSource.getConnection();
 		
-		return preparedStatement.executeUpdate();
+		String sql = "DELETE FROM library WHERE library.name = ?";
+		PreparedStatement preparedStatement = conn.prepareStatement(sql);
+		preparedStatement.setString(1, library.getName());
+		preparedStatement.executeUpdate();
+		
+		conn.close();
+		
+		return 1;
 	}
 	
 	public int removeAllLibraies() throws SQLException {
 		
+		Connection conn = this.dataSource.getConnection();
+		
 		String sql = "DELETE FROM library";
-		PreparedStatement preparedStatement = this.conn.prepareStatement(sql);
-		
-		return preparedStatement.executeUpdate();
-	}
-
-	public int saveLibraryAndGetId(Library library) throws SQLException {
-		
-		String sql = "INSERT INTO library (name) VALUES(?)";
-		PreparedStatement preparedStatement = this.conn.prepareStatement(sql);
-		preparedStatement.setString(1, library.getName());
-		
+		PreparedStatement preparedStatement = conn.prepareStatement(sql);
 		preparedStatement.executeUpdate();
 		
-		Library found = this.findByName(library.getName());
+		conn.close();
 		
-		return found.getId();
+		return 1;
 	}
 
 	public Library findById(int id) throws SQLException {
+		
+		Connection conn = this.dataSource.getConnection();
+		
 		String sql = "SELECT * FROM library l WHERE l.id = ?";
-		PreparedStatement preparedStatement = this.conn.prepareStatement(sql);
+		PreparedStatement preparedStatement = conn.prepareStatement(sql);
 		preparedStatement.setInt(1, id);
 		ResultSet rs = preparedStatement.executeQuery();
 		
@@ -115,7 +143,9 @@ public class LibraryRepository implements ILibraryRepository {
 			libraries.add(library);
 		}
 		
-		return libraries.get(0);
+		conn.close();
+		
+		return (libraries.isEmpty())? null : libraries.get(0);
 	}
 	
 	

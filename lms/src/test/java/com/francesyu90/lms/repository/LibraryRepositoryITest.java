@@ -81,7 +81,7 @@ public class LibraryRepositoryITest {
 	
 	@Test
 	public void testFindById() throws SQLException {
-		String name = "library1";
+		String name = "library2";
 		Library library = new Library(name);
 		int id = this.libRepo.saveLibraryAndGetId(library);
 		Library found = this.libRepo.findById(id);
@@ -91,6 +91,4 @@ public class LibraryRepositoryITest {
 		this.libRepo.removeAllLibraies();
 	}
 	
-	
-
 }
