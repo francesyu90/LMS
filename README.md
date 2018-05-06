@@ -42,7 +42,8 @@ Here is a list of available shell commands
 
 ## Built With
 
-* [Maven](https://maven.apache.org/) - Dependency Management
+* [Maven](https://maven.apache.org) - Dependency Management
 * [Gson](https://github.com/google/gson) - A Java serialization/deserialization library to convert Java Objects into JSON and back 
+* [PicoContainer](http://picocontainer.com) - For Dependency Injection 
 
 
