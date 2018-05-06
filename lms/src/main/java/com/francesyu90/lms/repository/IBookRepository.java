@@ -14,5 +14,9 @@ public interface IBookRepository {
 	public int removeAllBooks() throws SQLException;
 	
 	public List<Book> findBooksByLibraryId(int libraryId) throws SQLException;
+	
+	public int removeBooksByLibraryId(int libraryId) throws SQLException;
+	
+	public int removeBooksByLibraryName(String name) throws SQLException;
 
 }

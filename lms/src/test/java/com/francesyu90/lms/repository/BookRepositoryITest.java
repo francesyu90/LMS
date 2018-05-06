@@ -104,6 +104,39 @@ public class BookRepositoryITest {
 		libRepo.removeAllLibraies();
 	}
 	
+	@Test
+	public void testRemoveBooksByLibraryId() throws SQLException {
+		Library library = new Library("library");
+		ILibraryRepository libRepo = this.getLibRepo();
+		int libraryId = libRepo.saveLibraryAndGetId(library);
+		Book book = new Book("Hello", "World");
+		Book book1 = new Book("Hello1", "World1");
+		book.setLibraryId(libraryId);
+		book1.setLibraryId(libraryId);
+		this.bookRepo.saveBook(book);
+		this.bookRepo.saveBook(book1);
+		int res = this.bookRepo.removeBooksByLibraryId(libraryId);
+		assertEquals(res, 2);
+		libRepo.removeAllLibraies();
+	}
+	
+	@Test
+	public void testRemoveBooksByLibraryName() throws SQLException {
+		String libraryName = "library";
+		Library library = new Library(libraryName);
+		ILibraryRepository libRepo = this.getLibRepo();
+		int libraryId = libRepo.saveLibraryAndGetId(library);
+		Book book = new Book("Hello", "World");
+		Book book1 = new Book("Hello1", "World1");
+		book.setLibraryId(libraryId);
+		book1.setLibraryId(libraryId);
+		this.bookRepo.saveBook(book);
+		this.bookRepo.saveBook(book1);
+		int res = this.bookRepo.removeBooksByLibraryName(libraryName);
+		assertEquals(res, 2);
+		libRepo.removeAllLibraies();
+	}
+	
 	
 
 }

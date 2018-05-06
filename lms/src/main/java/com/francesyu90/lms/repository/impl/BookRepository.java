@@ -85,6 +85,30 @@ public class BookRepository implements IBookRepository {
 		
 		return books;
 	}
+
+	public int removeBooksByLibraryId(int libraryId) throws SQLException {
+		
+		String sql = "DELETE FROM book WHERE book.library_id = ?";
+		PreparedStatement preparedStatement = this.conn.prepareStatement(sql);
+		preparedStatement.setInt(1, libraryId);
+		
+		return preparedStatement.executeUpdate();
+	}
+
+	public int removeBooksByLibraryName(String name) throws SQLException {
+		
+		String sql = "DELETE FROM book WHERE book.library_id IN ("
+				+ "SELECT library.id FROM library WHERE library.name = ?"
+				+ ")";
+		PreparedStatement preparedStatement = this.conn.prepareStatement(sql);
+		preparedStatement.setString(1, name);
+		
+		return preparedStatement.executeUpdate();
+	}
+	
+	
+	
+	
 	
 
 }
