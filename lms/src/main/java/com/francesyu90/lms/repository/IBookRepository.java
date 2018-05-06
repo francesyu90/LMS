@@ -9,6 +9,10 @@ public interface IBookRepository {
 	
 	public List<Book> getAllBooks() throws SQLException;
 	
-	public boolean saveBook(Book book) throws SQLException;
+	public int saveBook(Book book) throws SQLException;
+	
+	public int removeAllBooks() throws SQLException;
+	
+	public List<Book> findBooksByLibraryId(int libraryId) throws SQLException;
 
 }

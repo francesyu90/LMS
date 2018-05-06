@@ -18,7 +18,9 @@ import com.francesyu90.lms.repository.impl.LibraryRepository;
 
 /**
  * 
- * Note: only run these tests after connecting to real database server
+ * Note: 
+ * 	only run these tests after connecting to real database server
+ *	only run these tests when using test database
  * 
  */
 public class LibraryRepositoryITest {
